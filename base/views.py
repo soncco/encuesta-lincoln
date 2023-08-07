@@ -43,7 +43,7 @@ def encuesta(request, id):
         ip = ip_cliente(request)
         ya_voto = Ip.objects.filter(ip=ip).count()
         if ya_voto > 0:
-            return HttpResponseRedirect(reverse('base:resultados', args=[encuesta.pk]))
+            return HttpResponseRedirect(reverse('base:resultado', args=[encuesta.pk]))
 
     context = {
         'encuesta': encuesta,
