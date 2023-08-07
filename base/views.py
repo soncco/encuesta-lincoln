@@ -39,6 +39,12 @@ def encuesta(request, id):
 
     vencido = now > vencimiento
 
+    if not request.user.is_authenticated:
+        ip = ip_cliente(request)
+        ya_voto = Ip.objects.filter(ip=ip).count()
+        if ya_voto > 0:
+            return HttpResponseRedirect(reverse('base:resultados', args=[encuesta.pk]))
+
     context = {
         'encuesta': encuesta,
         'tiempo': tiempo_formateado,
