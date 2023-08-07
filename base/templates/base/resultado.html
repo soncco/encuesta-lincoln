@@ -1,0 +1,57 @@
+{% extends 'base/base.html' %}
+
+{% block main %}
+    <h1 class="mb-5">{{ encuesta.titulo }}</h1>
+    <div class="row">
+        <div class="col"></div>
+        <div class="col-md-6">
+            <canvas id="myChart" style=""></canvas>
+            <div class="text-center mt-5">
+                <p><a href="{% url 'base:encuestas' %}" class="btn btn-primary">Regresar </a></p>
+            </div>
+        </div>
+        <div class="col"></div>
+    </div>
+
+{% endblock main %}
+
+{% block js %}
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        {% spaceless %}
+            var labels = []
+            var data = []
+            var total =
+            {% for opcion in encuesta.opcion_set.all %}
+                {{opcion.votos}} +
+            {% endfor %}
+            0;
+
+            {% for opcion in encuesta.opcion_set.all %}
+                labels.push('{{ opcion.opcion }}')
+                data.push({{ opcion.votos }})
+            {% endfor %}
+            
+        {% endspaceless %}
+        const ctx = document.getElementById('myChart');
+
+
+        new Chart(ctx, {
+            type: 'pie',
+            data: {
+            labels: labels,
+            datasets: [{
+                label: 'Número de votos',
+                data: data,
+                borderWidth: 1
+            }]
+            },
+        });
+
+    </script>
+{% endblock js %}
+
+
+{% block title %}
+    {{ encuesta.titulo }} - resultados
+{% endblock title %}

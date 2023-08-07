@@ -1,0 +1,29 @@
+{% extends 'base/base.html' %}
+
+{% block main %}
+    <h1>{{ encuesta.titulo }}</h1>
+    <p>{{ tiempo }}</p>
+
+    <form action="{% url 'base:registrar' %}" method="post">
+        <ul class="list-unstyled">
+            {% for opcion in encuesta.opcion_set.all %}
+                <li>
+                    <input type="radio" name="opcion" id="opcion-{{opcion.id}}" value="{{opcion.id}}">
+                    <label for="opcion-{{opcion.id}}">{{ opcion.opcion }}</label>
+                </li>
+            {% endfor %}
+        </ul>
+
+        <div class="text-center">
+            <button class="btn btn-primary">Votar</button>
+            <a class="btn btn-success" href="{% url 'base:resultado' encuesta.id %}">Ver resultados</a>
+        </div>
+        {% csrf_token %}
+    </form>
+{% endblock main %}
+
+
+{% block title %}
+    {{ encuesta.titulo }}
+{% endblock title %}
+    

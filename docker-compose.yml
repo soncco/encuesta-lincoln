@@ -1,0 +1,25 @@
+version: "3.8"
+
+services:
+  db:
+    image: mysql:8
+    volumes:
+      - ./data/dbdata:/var/lib/mysql
+    env_file: .env
+
+  web:
+    build: .
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/code
+    ports:
+      - "8000:8000"
+      - "3000:3000"
+    depends_on:
+      - db
+
+  pma:
+    image: phpmyadmin:latest
+    ports:
+      - "8800:80"
+    env_file: .env

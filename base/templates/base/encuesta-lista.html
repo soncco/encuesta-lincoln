@@ -1,0 +1,22 @@
+{% extends 'base/base.html' %}
+
+
+{% block main %}
+    <h1>Bienvenido a las encuestas</h1>
+
+
+    <p>Escoge una encuesta para votar</p>
+    <ul>
+        {% for encuesta in encuestas%}
+        <li>
+            <a href="{% url "base:encuesta" encuesta.id %}">{{ encuesta.titulo }}</a>
+            (Vence el {{ encuesta.vencimiento|date:"d M Y" }})
+        </li>
+        {% endfor %}
+    </ul>    
+{% endblock main %}
+
+
+{% block title %}
+    Lista de encuestas
+{% endblock title %}
