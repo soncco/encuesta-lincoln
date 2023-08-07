@@ -41,7 +41,7 @@ def encuesta(request, id):
 
     if not request.user.is_authenticated:
         ip = ip_cliente(request)
-        ya_voto = Ip.objects.filter(ip=ip).count()
+        ya_voto = Ip.objects.filter(ip=ip, encuesta=encuesta).count()
         if ya_voto > 0:
             return HttpResponseRedirect(reverse('base:resultado', args=[encuesta.pk]))
 
